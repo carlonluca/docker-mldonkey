@@ -8,7 +8,7 @@ RUN \
     rm /var/lib/mldonkey/*
 
 USER mldonkey
-ENV MLDONKEY_DIR /var/lib/mldonkey
+ENV MLDONKEY_DIR=/var/lib/mldonkey LC_ALL=C.UTF-8 LANG=C.UTF-8
 VOLUME /var/lib/mldonkey
 EXPOSE 4000 4080 19040 19044
 ADD entrypoint.sh /
