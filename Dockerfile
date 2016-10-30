@@ -1,4 +1,4 @@
-FROM debian:wheezy
+FROM debian:jessie
 
 RUN \
     apt-get update && \
