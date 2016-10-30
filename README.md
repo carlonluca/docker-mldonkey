@@ -39,5 +39,5 @@ The included `docker-compose.yml` set up everything for you. To run in Docker
 for Mac,
 
 ```
-$ docker-compose run
+$ docker-compose up
 ```
