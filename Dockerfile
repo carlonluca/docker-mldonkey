@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:latest
 
 RUN \
     apt-get update && \
@@ -6,6 +6,9 @@ RUN \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /var/log/mldonkey && \
     rm /var/lib/mldonkey/*
+
+RUN /usr/sbin/usermod -u 1001 mldonkey
+RUN /usr/sbin/groupmod -g 1001 mldonkey
 
 USER mldonkey
 ENV MLDONKEY_DIR=/var/lib/mldonkey LC_ALL=C.UTF-8 LANG=C.UTF-8
