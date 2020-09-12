@@ -2,7 +2,7 @@ version: '2'
 
 services:
   mldonkey:
-    image: cheungpat/mldonkey
+    image: carlonluca/mldonkey:latest
     volumes:
     - ./data:/var/lib/mldonkey
     - data:/var/lib/mldonkey/temp
