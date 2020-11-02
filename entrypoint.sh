@@ -15,6 +15,7 @@ if [ ! -f /root/initialized ]; then
 fi
 
 if [ ! -f /var/lib/mldonkey/downloads.ini ]; then
+    chown mldonkey:mldonkey /var/lib/mldonkey
     su mldonkey -c 'mldonkey' &
     echo "Waiting for mldonkey to start..."
     sleep 5
