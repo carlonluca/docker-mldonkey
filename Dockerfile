@@ -27,10 +27,13 @@ RUN \
 RUN useradd -ms /bin/bash mldonkey
 
 COPY --from=builder /mldonkey/out/bin/* /usr/bin/
-COPY --from=builder /mldonkey/distrib/mldonkey_command /usr/lib/mldonkey/
 
 ENV MLDONKEY_DIR=/var/lib/mldonkey LC_ALL=C.UTF-8 LANG=C.UTF-8
 VOLUME /var/lib/mldonkey
 EXPOSE 4000 4080 19040 19044
 ADD entrypoint.sh /
+ADD mldonkey_command /usr/lib/mldonkey/
+
+RUN chmod +x /usr/lib/mldonkey/mldonkey_command
+
 CMD /entrypoint.sh

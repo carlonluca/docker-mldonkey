@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# To run this program, you need the nc (netcat) program
+
+MLDONKEY_IP=127.0.0.1
+MLDONKEY_TELNET_PORT=4000
+
+if [ "$1" = "--auth" ]; then
+        auth="auth $2 $3"
+        shift 3
+else
+        auth=""
+fi
+
+nc $MLDONKEY_IP $MLDONKEY_TELNET_PORT <<EOF
+$auth
+$*
+q
+EOF

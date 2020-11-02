@@ -19,13 +19,13 @@ if [ ! -f /var/lib/mldonkey/downloads.ini ]; then
     su mldonkey -c 'mldonkey' &
     echo "Waiting for mldonkey to start..."
     sleep 5
-    su mldonkey -c '/usr/lib/mldonkey/mldonkey_command -p "" "set allowed_ips 0.0.0.0/0" "save"'
+    su mldonkey -c '/usr/lib/mldonkey/mldonkey_command "set allowed_ips 0.0.0.0/0"'
     export MLDONKEY_ADMIN_PASSWORD
     if [ -z "$MLDONKEY_ADMIN_PASSWORD" ]; then
-        su mldonkey -c '/usr/lib/mldonkey/mldonkey_command -p "" "kill"'
+        su mldonkey -c '/usr/lib/mldonkey/mldonkey_command "kill"'
     else
-        su mldonkey -c '/usr/lib/mldonkey/mldonkey_command -p "" "useradd admin $MLDONKEY_ADMIN_PASSWORD"'
-        su mldonkey -c '/usr/lib/mldonkey/mldonkey_command -u admin -p "$MLDONKEY_ADMIN_PASSWORD" "kill"'
+        su mldonkey -c '/usr/lib/mldonkey/mldonkey_command "useradd admin $MLDONKEY_ADMIN_PASSWORD"'
+        su mldonkey -c '/usr/lib/mldonkey/mldonkey_command --auth admin $MLDONKEY_ADMIN_PASSWORD "kill"'
     fi
 fi
 
