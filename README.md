@@ -7,7 +7,7 @@ This repository host the Dockerfile for building mldonkey docker image.
 To run mldonkey using this image:
 
 ```
-$ docker run -i -t cheungpat/mldonkey
+$ docker run -i -t carlonluca/mldonkey
 ```
 
 You may change the admin password by using the comand `useradd admin <password`,
@@ -15,7 +15,7 @@ or you can specify `MLDONKEY_ADMIN_PASSWORD` environment variable with
 a password:
 
 ```
-$ docker run -i -t -e MLDONKEY_ADMIN_PASSWORD=supersecret cheungpat/mldonkey
+$ docker run -i -t -e MLDONKEY_ADMIN_PASSWORD=supersecret carlonluca/mldonkey
 ```
 
 mldonkey stores data inside `/var/lib/mldonkey`. You may want to mount the
@@ -24,7 +24,7 @@ when you re-create the docker container. It is also easier to get downloaded
 files this way.
 
 ```
-$ docker run -i -t -v "`pwd`/data:/var/lib/mldonkey" cheungpat/mldonkey
+$ docker run -i -t -v "`pwd`/data:/var/lib/mldonkey" carlonluca/mldonkey
 ```
 
 Your data will be available under `data/incoming` directory where you
