@@ -2,6 +2,8 @@
 
 This repository host the Dockerfile for building mldonkey docker image.
 
+![Screenshot](shot.png)
+
 ## Usage
 
 To run mldonkey using this image:
