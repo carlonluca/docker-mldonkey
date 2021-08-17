@@ -7,7 +7,7 @@ RUN \
         libupnp-dev libgd-dev ca-certificates ocaml camlp4 && \
     git clone https://github.com/ygrek/mldonkey.git && \
     cd mldonkey && \
-    git checkout release-3-1-7-2 && \
+    git checkout d9394aa && \
     mkdir -p patches && \
     ./configure --prefix=$PWD/out --enable-batch && \
     make -j$(nproc) && \
@@ -16,8 +16,10 @@ RUN \
 FROM debian:buster
 
 RUN \
-    apt-get update && \
+    apt-get -y update && \
+    apt-get -y upgrade && \
     apt-get install --no-install-recommends -y zlib1g libbz2-1.0 libmagic1 libgd3 && \
+    apt-get -y --purge autoremove && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /var/log/mldonkey && \
     rm -rf /var/lib/mldonkey && \
