@@ -9,7 +9,7 @@ RUN \
     cd mldonkey && \
     git checkout d9394aa && \
     mkdir -p patches && \
-    ./configure --prefix=$PWD/out --enable-batch && \
+    ./configure --prefix=$PWD/out --enable-batch --enable-force-ocaml && \
     make -j$(nproc) && \
     make install
 
