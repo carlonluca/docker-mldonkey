@@ -22,7 +22,7 @@ docker-build:
     - docker manifest create carlonluca/mldonkey:$VERSION --amend carlonluca/mldonkey:dev-armv7 --amend carlonluca/mldonkey:dev-armv8 --amend carlonluca/mldonkey:dev-amd64 --amend carlonluca/mldonkey:dev-386
     - docker manifest create carlonluca/mldonkey:latest --amend carlonluca/mldonkey:dev-armv7 --amend carlonluca/mldonkey:dev-armv8 --amend carlonluca/mldonkey:dev-amd64 --amend carlonluca/mldonkey:dev-386
     - docker manifest push carlonluca/mldonkey:$VERSION
-    #- docker manifest push carlonluca/mldonkey:latest
+    - docker manifest push carlonluca/mldonkey:latest
     - docker buildx stop mybuilder_mld
     - docker buildx rm mybuilder_mld
   rules:
