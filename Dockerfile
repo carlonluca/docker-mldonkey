@@ -18,7 +18,7 @@ FROM debian:buster
 RUN \
     apt-get -y update && \
     apt-get -y upgrade && \
-    apt-get install --no-install-recommends -y zlib1g libbz2-1.0 libmagic1 libgd3 && \
+    apt-get install --no-install-recommends -y zlib1g libbz2-1.0 libmagic1 libgd3 netcat && \
     apt-get -y --purge autoremove && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /var/log/mldonkey && \
