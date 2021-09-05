@@ -4,7 +4,7 @@ RUN \
     apt-get update && \
     apt-get install -y --no-install-recommends git build-essential \
         autoconf wget libz-dev libbz2-dev libmagic-dev libnatpmp-dev \
-        libupnp-dev libgd-dev ca-certificates ocaml camlp4 && \
+        libupnp-dev libgd-dev ca-certificates ocaml camlp4 ocaml-compiler-libs ocaml-nox && \
     git clone https://github.com/ygrek/mldonkey.git && \
     cd mldonkey && \
     git checkout d9394aa && \
