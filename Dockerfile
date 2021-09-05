@@ -10,7 +10,7 @@ RUN \
     git checkout d9394aa && \
     mkdir -p patches && \
     ./configure --prefix=$PWD/out --enable-batch && \
-    make -j$(nproc) && \
+    make -j1 && \
     make install
 
 FROM debian:buster
