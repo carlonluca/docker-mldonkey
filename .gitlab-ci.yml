@@ -14,7 +14,7 @@ docker-build:
     - docker run --privileged --rm tonistiigi/binfmt --install all
     - docker buildx create --name mybuilder_mld --use --platform linux/arm64/v8,linux/386,linux/arm/v7,linux/arm/v6,linux/amd64
     - docker buildx use mybuilder_mld
-    #- docker buildx build --push --platform linux/arm/v6 -t carlonluca/mldonkey:dev-armv6 .
+    - docker buildx build --push --platform linux/arm/v6 -t carlonluca/mldonkey:dev-armv6 .
     - docker buildx build --push --platform linux/arm/v7 -t carlonluca/mldonkey:dev-armv7 .
     - docker buildx build --push --platform linux/arm64/v8 -t carlonluca/mldonkey:dev-armv8 .
     - docker buildx build --push --platform linux/amd64 -t carlonluca/mldonkey:dev-amd64 .
