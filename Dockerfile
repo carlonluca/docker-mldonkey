@@ -5,9 +5,9 @@ RUN \
     apt-get install -y --no-install-recommends git build-essential \
         autoconf wget libz-dev libbz2-dev libmagic-dev libnatpmp-dev \
         libupnp-dev libgd-dev ca-certificates ocaml camlp4 ocaml-compiler-libs ocaml-nox && \
-    git clone https://github.com/ygrek/mldonkey.git && \
+    git clone https://github.com/carlonluca/mldonkey.git && \
     cd mldonkey && \
-    git checkout d9394aa && \
+    git checkout css_fix && \
     mkdir -p patches && \
     ./configure --prefix=$PWD/out --enable-batch && \
     make -j1 && \
