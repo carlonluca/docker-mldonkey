@@ -4,6 +4,14 @@ This repository host the Dockerfile for building mldonkey docker image.
 
 ![Screenshot](shot.png)
 
+## Available versions
+
+Versions tagged just with a software versions are builds of mldonkey from official mldonkey releases. The mldonkey code is currently taken from https://github.com/ygrek/mldonkey.
+
+Versions including a hash are versions built from specific commits. Commits do not refer to the official repo but to my fork https://github.com/carlonluca/mldonkey. If you want to know what the image includes, refer to that repo history and branches (in particular the dev branch). My fork tries to stay in sync with the more official repo above.
+
+Currently, dev images include the dark theme and all the most recent commits to the official repo + other updates. Refer to https://github.com/carlonluca/mldonkey for more info.
+
 ## Usage
 
 To run mldonkey using this image:

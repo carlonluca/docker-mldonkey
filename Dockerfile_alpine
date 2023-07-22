@@ -1,0 +1,12 @@
+FROM alpine:latest AS builder
+
+RUN apk update
+RUN apk install git g++ make autoconf patch
+RUN \
+    git clone https://github.com/carlonluca/mldonkey.git && \
+    cd mldonkey && \
+    git checkout css_fix && \
+    mkdir -p patches && \
+    ./configure --prefix=$PWD/out --enable-batch && \
+    make -j1 && \
+    make install
