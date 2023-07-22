@@ -12,6 +12,8 @@ Versions including a hash are versions built from specific commits. Commits do n
 
 Currently, dev images include the dark theme and all the most recent commits to the official repo + other updates. Refer to https://github.com/carlonluca/mldonkey for more info.
 
+**Refer to https://bugfreeblog.duckdns.org/docker-images-for-the-mldonkey-service for more info about each available image.**
+
 ## Usage
 
 To run mldonkey using this image:
