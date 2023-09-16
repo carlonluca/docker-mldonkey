@@ -1,3 +1,24 @@
+FROM debian:buster AS builder-next
+
+RUN \
+    apt-get update \
+ && apt-get install -y ca-certificates curl gnupg git \
+ && mkdir -p /etc/apt/keyrings \
+ && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key \
+     | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
+ && export NODE_MAJOR=18 \
+ && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" \
+     > /etc/apt/sources.list.d/nodesource.list \
+ && apt-get update \
+ && apt-get install nodejs -y \
+ && cd /root/ \
+ && git clone https://github.com/carlonluca/mldonkey-next.git \
+ && cd mldonkey-next/mldonkey-next-backend \
+ && npm i \
+ && npm run build \
+ && npm i pkg \
+ && npx pkg dist/main.js -t node18-linux
+
 FROM debian:buster AS builder
 
 RUN \
@@ -24,6 +45,7 @@ RUN \
         libnatpmp1 libupnp13 libminiupnpc17 librsvg2-2 librsvg2-common \
         libgtk2.0-0 libgtk2.0-common \
         liblablgtk2-ocaml liblablgtk2-gl-ocaml liblablgtk2-gnome-ocaml && \
+    apt-get install -y supervisor && \
     apt-get -y --purge autoremove && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /var/log/mldonkey && \
@@ -32,12 +54,20 @@ RUN \
     mkdir /usr/lib/mldonkey/
 
 RUN useradd -ms /bin/bash mldonkey
+RUN mkdir -p /var/log/supervisor
 
+COPY --from=builder-next /root/mldonkey-next/mldonkey-next-backend/main /usr/bin/mldonkey-next
 COPY --from=builder /mldonkey/out/bin/* /usr/bin/
 COPY --from=builder /mldonkey/distrib/mldonkey_command /usr/lib/mldonkey/
 
 ENV MLDONKEY_DIR=/var/lib/mldonkey LC_ALL=C.UTF-8 LANG=C.UTF-8
 VOLUME /var/lib/mldonkey
-EXPOSE 4000 4080 19040 19044
+
+# 4001 - TCP socket
+# 4002 - Websocket
+EXPOSE 4000 4001 4002 4080 19040 19044
+
 ADD entrypoint.sh /
-CMD /entrypoint.sh
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+CMD ["/usr/bin/supervisord"]
