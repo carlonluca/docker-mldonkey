@@ -46,6 +46,7 @@ RUN \
         libgtk2.0-0 libgtk2.0-common \
         liblablgtk2-ocaml liblablgtk2-gl-ocaml liblablgtk2-gnome-ocaml && \
     apt-get install -y supervisor && \
+    apt-get install -y procps && \
     apt-get -y --purge autoremove && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /var/log/mldonkey && \
@@ -68,6 +69,7 @@ VOLUME /var/lib/mldonkey
 EXPOSE 4000 4001 4002 4080 19040 19044
 
 ADD entrypoint.sh /
+ADD init.sh /
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 CMD ["/usr/bin/supervisord"]
