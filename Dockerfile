@@ -64,4 +64,4 @@ ADD entrypoint.sh /
 ADD init.sh /
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-CMD ["/usr/bin/supervisord"]
+CMD "/init.sh" && "/usr/bin/supervisord"
