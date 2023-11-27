@@ -62,6 +62,7 @@ EXPOSE 4000 4001 4002 4080 19040 19044
 
 ADD entrypoint.sh /
 ADD init.sh /
+ADD run_supervisord.sh /
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-CMD "/init.sh" && "/usr/bin/supervisord"
+CMD ["/run_supervisord.sh"]
