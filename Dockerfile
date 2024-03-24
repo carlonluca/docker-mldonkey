@@ -6,6 +6,7 @@ RUN \
  && cd /root/ \
  && git clone https://github.com/carlonluca/mldonkey-next.git \
  && cd mldonkey-next/mldonkey-next-backend \
+ && git checkout ce719afe59af9821d75c4a782f1c7cd1d4348675 \
  && npm i \
  && npm run build \
  && npm i pkg \
