@@ -11,19 +11,9 @@ docker-build:
   script:
     - export DOCKER_CLI_EXPERIMENTAL=enabled
     - export VERSION=$(cat VERSION)
-    - docker run --privileged --rm tonistiigi/binfmt --install all
-    - docker buildx create --name mybuilder_mld --use --platform linux/arm64/v8,linux/386,linux/arm/v7,linux/arm/v6,linux/amd64
-    - docker buildx use mybuilder_mld
-    #- docker buildx build --push --platform linux/arm/v6 -t carlonluca/mldonkey:dev-armv6 .
-    - docker buildx build --push --platform linux/arm/v7 -t carlonluca/mldonkey:dev-armv7 .
-    - docker buildx build --push --platform linux/arm64/v8 -t carlonluca/mldonkey:dev-armv8 .
-    - docker buildx build --push --platform linux/amd64 -t carlonluca/mldonkey:dev-amd64 .
-    - docker buildx build --push --platform linux/386 -t carlonluca/mldonkey:dev-386 .
-    - docker manifest create carlonluca/mldonkey:$VERSION --amend carlonluca/mldonkey:dev-armv7 --amend carlonluca/mldonkey:dev-armv8 --amend carlonluca/mldonkey:dev-amd64 --amend carlonluca/mldonkey:dev-386
-    - docker manifest create carlonluca/mldonkey:latest --amend carlonluca/mldonkey:dev-armv7 --amend carlonluca/mldonkey:dev-armv8 --amend carlonluca/mldonkey:dev-amd64 --amend carlonluca/mldonkey:dev-386
-    - docker manifest push carlonluca/mldonkey:$VERSION
-    - docker manifest push carlonluca/mldonkey:latest
-    - docker buildx stop mybuilder_mld
-    - docker buildx rm mybuilder_mld
-  rules:
-    - when: manual
+    - docker buildx create --use
+    - docker buildx build --push --platform linux/arm64/v8,linux/amd64
+          -t carlonluca/mldonkey:dev-6fbc501-d63fb58
+          -t carlonluca/mldonkey:latest
+          -t carlonluca/mldonkey:dev
+          .
