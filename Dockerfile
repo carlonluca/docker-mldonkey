@@ -1,13 +1,28 @@
+FROM node:22-bookworm AS builder-webapp
+
+RUN \
+    apt-get update \
+ && apt-get upgrade -y \
+ && apt-get install -y ca-certificates curl gnupg git libatomic1 build-essential \
+ && npm install -g @angular/cli \
+ && cd /root/ \
+ && git clone https://github.com/carlonluca/mldonkey-next.git \
+ && cd mldonkey-next/mldonkey-next-frontend \
+ && git checkout d63fb586ab76e929b5d21e7611a2e5ab2ca11f02 \
+ && npm i --maxsockets 1 \
+ && ng build
+
 FROM node:18-buster AS builder-next
 
 RUN \
     apt-get update \
+ && apt-get upgrade -y \
  && apt-get install -y ca-certificates curl gnupg git libatomic1 build-essential \
  && cd /root/ \
  && git clone https://github.com/carlonluca/mldonkey-next.git \
  && cd mldonkey-next/mldonkey-next-backend \
- && git checkout ce719afe59af9821d75c4a782f1c7cd1d4348675 \
- && npm i \
+ && git checkout d63fb586ab76e929b5d21e7611a2e5ab2ca11f02 \
+ && npm i --maxsockets 1 \
  && npm run build \
  && npm i pkg \
  && npx pkg dist/main.js -t node18-linux
@@ -48,8 +63,10 @@ RUN \
     mkdir /usr/lib/mldonkey/
 
 RUN useradd -ms /bin/bash mldonkey \
- && mkdir -p /var/log/supervisor
+ && mkdir -p /var/log/supervisor \
+ && mkdir -p /usr/bin/dist/mldonkey-next
 
+COPY --from=builder-webapp /root/mldonkey-next/mldonkey-next-frontend/dist /usr/bin/dist
 COPY --from=builder-next /root/mldonkey-next/mldonkey-next-backend/main /usr/bin/mldonkey-next
 COPY --from=builder /mldonkey/out/bin/* /usr/bin/
 COPY --from=builder /mldonkey/distrib/mldonkey_command /usr/lib/mldonkey/
@@ -59,7 +76,7 @@ VOLUME /var/lib/mldonkey
 
 # 4001 - TCP socket
 # 4002 - Websocket
-EXPOSE 4000 4001 4002 4080 19040 19044
+EXPOSE 4000 4001 4002 4080 4081 19040 19044
 
 ADD entrypoint.sh /
 ADD init.sh /
