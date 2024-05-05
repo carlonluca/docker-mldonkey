@@ -8,7 +8,7 @@ RUN \
  && cd /root/ \
  && git clone https://github.com/carlonluca/mldonkey-next.git \
  && cd mldonkey-next/mldonkey-next-frontend \
- && git checkout d63fb586ab76e929b5d21e7611a2e5ab2ca11f02 \
+ && git checkout f9178cf02c805e81b752f5f923e9b47d0eb8d442 \
  && npm i --maxsockets 1 \
  && ng build
 
@@ -21,7 +21,7 @@ RUN \
  && cd /root/ \
  && git clone https://github.com/carlonluca/mldonkey-next.git \
  && cd mldonkey-next/mldonkey-next-backend \
- && git checkout d63fb586ab76e929b5d21e7611a2e5ab2ca11f02 \
+ && git checkout f9178cf02c805e81b752f5f923e9b47d0eb8d442 \
  && npm i --maxsockets 1 \
  && npm run build \
  && npm i pkg \
