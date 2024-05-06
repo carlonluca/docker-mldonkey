@@ -13,7 +13,7 @@ docker-build:
     - export VERSION=$(cat VERSION)
     - docker buildx create --use
     - docker buildx build --push --platform linux/arm64/v8,linux/amd64
-          -t carlonluca/mldonkey:dev-6fbc501-d63fb58
+          -t carlonluca/mldonkey:$VERSION
           -t carlonluca/mldonkey:latest
           -t carlonluca/mldonkey:dev
           .
