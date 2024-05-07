@@ -4,6 +4,8 @@ RUN \
     apt-get update \
  && apt-get upgrade -y \
  && apt-get install -y ca-certificates curl gnupg git libatomic1 build-essential \
+ && npm config set fetch-timeout 600000 \
+ && npm i --maxsockets 1 \
  && npm install -g @angular/cli \
  && cd /root/ \
  && git clone https://github.com/carlonluca/mldonkey-next.git \
@@ -22,6 +24,7 @@ RUN \
  && git clone https://github.com/carlonluca/mldonkey-next.git \
  && cd mldonkey-next/mldonkey-next-backend \
  && git checkout f9178cf02c805e81b752f5f923e9b47d0eb8d442 \
+ && npm config set fetch-timeout 600000 \
  && npm i --maxsockets 1 \
  && npm run build \
  && npm i pkg \
