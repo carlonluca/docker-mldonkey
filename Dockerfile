@@ -27,8 +27,10 @@ RUN \
  && npm config set fetch-timeout 600000 \
  && npm i --maxsockets 1 \
  && npm run build \
- && npm i pkg \
- && npx pkg dist/main.js -t node18-linux
+ && npx webpack \
+ && node --experimental-sea-config sea-config.json \
+ && cp $(command -v node) mldonkey-next \
+ && npx postject mldonkey-next NODE_SEA_BLOB sea-prep.blob --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2
 
 FROM debian:buster AS builder
 
@@ -70,7 +72,7 @@ RUN useradd -ms /bin/bash mldonkey \
  && mkdir -p /usr/bin/dist/mldonkey-next
 
 COPY --from=builder-webapp /root/mldonkey-next/mldonkey-next-frontend/dist /usr/bin/dist
-COPY --from=builder-next /root/mldonkey-next/mldonkey-next-backend/main /usr/bin/mldonkey-next
+COPY --from=builder-next /root/mldonkey-next/mldonkey-next-backend/mldonkey-next /usr/bin/mldonkey-next
 COPY --from=builder /mldonkey/out/bin/* /usr/bin/
 COPY --from=builder /mldonkey/distrib/mldonkey_command /usr/lib/mldonkey/
 
