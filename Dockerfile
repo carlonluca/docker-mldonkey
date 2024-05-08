@@ -1,21 +1,22 @@
-FROM node:22-bookworm AS builder-webapp
+FROM node:21-bookworm AS builder-webapp
 
+WORKDIR /root/
 RUN \
     apt-get update \
  && apt-get upgrade -y \
  && apt-get install -y ca-certificates curl gnupg git libatomic1 build-essential \
  && npm config set fetch-timeout 600000 \
- && npm i --maxsockets 1 \
- && npm install -g @angular/cli \
  && cd /root/ \
  && git clone https://github.com/carlonluca/mldonkey-next.git \
  && cd mldonkey-next/mldonkey-next-frontend \
- && git checkout f9178cf02c805e81b752f5f923e9b47d0eb8d442 \
+ && git checkout 6f259e796b2c45ac7630a1a3e0f4f84dc114656e \
+ && npm install -g @angular/cli \
  && npm i --maxsockets 1 \
  && ng build
 
-FROM node:18-buster AS builder-next
+FROM node:22-bookworm AS builder-next
 
+WORKDIR /root/
 RUN \
     apt-get update \
  && apt-get upgrade -y \
@@ -23,10 +24,11 @@ RUN \
  && cd /root/ \
  && git clone https://github.com/carlonluca/mldonkey-next.git \
  && cd mldonkey-next/mldonkey-next-backend \
- && git checkout f9178cf02c805e81b752f5f923e9b47d0eb8d442 \
+ && git checkout 6f259e796b2c45ac7630a1a3e0f4f84dc114656e \
  && npm config set fetch-timeout 600000 \
  && npm i --maxsockets 1 \
  && npm run build \
+ && npm i webpack-cli webpack \
  && npx webpack \
  && node --experimental-sea-config sea-config.json \
  && cp $(command -v node) mldonkey-next \
