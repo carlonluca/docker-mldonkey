@@ -23,7 +23,7 @@ RUN \
  && npm i --maxsockets 1 \
  && ng build
 
-FROM debian:bullseye AS builder
+FROM debian:bookworm AS builder
 
 RUN \
     apt-get update && \
@@ -39,13 +39,13 @@ RUN \
     make -j1 && \
     make install
 
-FROM debian:bullseye
+FROM debian:bookworm
 
 RUN \
     apt-get -y update && \
     apt-get -y upgrade && \
     apt-get install --no-install-recommends -y \
-        zlib1g libbz2-1.0 libmagic1 libgd3 netcat \
+        zlib1g libbz2-1.0 libmagic1 libgd3 netcat-openbsd \
         libnatpmp1 libupnp13 libminiupnpc17 librsvg2-2 librsvg2-common \
         libgtk2.0-0 libgtk2.0-common \
         liblablgtk2-ocaml liblablgtk2-gl-ocaml liblablgtk2-gnome-ocaml && \
