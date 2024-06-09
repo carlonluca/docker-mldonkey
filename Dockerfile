@@ -23,32 +23,34 @@ RUN \
  && npm i --maxsockets 1 \
  && ng build
 
-FROM debian:bookworm AS builder
+FROM ubuntu:noble AS builder
 
 RUN \
-    apt-get update && \
-    apt-get install -y --no-install-recommends git build-essential \
+    apt-get -y update \
+ && apt-get -y upgrade \
+ && apt-get install -y --no-install-recommends git build-essential \
         autoconf wget libz-dev libbz2-dev libmagic-dev libnatpmp-dev \
-        libupnp-dev libgd-dev ca-certificates ocaml camlp4 ocaml-compiler-libs ocaml-nox \
-        libminiupnpc-dev librsvg2-dev libgtk2.0-dev liblablgtk2-ocaml-dev liblablgtk2-gl-ocaml-dev liblablgtk2-gnome-ocaml-dev && \
-    git clone https://github.com/carlonluca/mldonkey.git && \
-    cd mldonkey && \
-    git checkout 10bad811e098a50292fbdba8f87aabe425042db1 && \
-    mkdir -p patches && \
-    ./configure --prefix=$PWD/out --enable-batch --enable-upnp-natpmp --disable-gnutella --disable-gnutella2 --disable-gui && \
-    make -j1 && \
-    make install
+        libupnp-dev libgd-dev ca-certificates libminiupnpc-dev librsvg2-dev opam \
+ && git clone https://github.com/carlonluca/mldonkey.git \
+ && cd mldonkey \
+ && git checkout 2e1773af9dc6a9a468811439f6863535011ee09c \
+ && opam init --disable-sandboxing --bare --yes --jobs=1 \
+ && eval $(opam env) \
+ && opam switch create --yes --jobs=1 4.14.1 \
+ && eval $(opam env --switch=ocaml-custom) \
+ && opam install --yes --jobs=1 camlp4.4.14+1 \
+ && ./configure --prefix=$PWD/out --enable-batch --enable-upnp-natpmp --disable-gnutella --disable-gnutella2 --disable-gui \
+ && make -j1 \
+ && make install
 
-FROM debian:bookworm
+FROM ubuntu:noble
 
 RUN \
     apt-get -y update && \
     apt-get -y upgrade && \
     apt-get install --no-install-recommends -y \
         zlib1g libbz2-1.0 libmagic1 libgd3 netcat-openbsd \
-        libnatpmp1 libupnp13 libminiupnpc17 librsvg2-2 librsvg2-common \
-        libgtk2.0-0 libgtk2.0-common \
-        liblablgtk2-ocaml liblablgtk2-gl-ocaml liblablgtk2-gnome-ocaml && \
+        libnatpmp1 libupnp17t64 libminiupnpc17 librsvg2-2 librsvg2-common && \
     apt-get install -y supervisor && \
     apt-get install -y procps && \
     apt-get -y --purge autoremove && \
