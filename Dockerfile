@@ -33,7 +33,7 @@ RUN \
         libminiupnpc-dev librsvg2-dev libgtk2.0-dev liblablgtk2-ocaml-dev liblablgtk2-gl-ocaml-dev liblablgtk2-gnome-ocaml-dev && \
     git clone https://github.com/carlonluca/mldonkey.git && \
     cd mldonkey && \
-    git checkout 10bad811e098a50292fbdba8f87aabe425042db1 && \
+    git checkout 285882dba0e0a237e256a455452d3367aa5df723 && \
     mkdir -p patches && \
     ./configure --prefix=$PWD/out --enable-batch --enable-upnp-natpmp --disable-gnutella --disable-gnutella2 --disable-gui && \
     make -j1 && \
