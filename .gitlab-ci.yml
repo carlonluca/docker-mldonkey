@@ -11,7 +11,7 @@ docker-build:
   script:
     - export DOCKER_CLI_EXPERIMENTAL=enabled
     - export VERSION=$(cat VERSION)
-    - docker buildx use default
+    - docker buildx create --use
     - docker buildx build --push --platform linux/arm64/v8,linux/amd64
           -t carlonluca/mldonkey:$VERSION
           -t carlonluca/mldonkey:dev
