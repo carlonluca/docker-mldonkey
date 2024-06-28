@@ -11,8 +11,10 @@ docker-build:
   script:
     - export DOCKER_CLI_EXPERIMENTAL=enabled
     - export VERSION=$(cat VERSION)
-    - docker buildx create --use
+    - docker buildx create --use --name buildkit_docker_mldonkey
     - docker buildx build --push --platform linux/arm64/v8,linux/amd64
           -t carlonluca/mldonkey:$VERSION
           -t carlonluca/mldonkey:dev
           .
+    - docker buildx stop buildkit_docker_mldonkey
+    - docker buildx rm buildkit_docker_mldonkey
