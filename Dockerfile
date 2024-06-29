@@ -26,7 +26,8 @@ RUN \
 FROM ubuntu:noble AS builder
 
 RUN \
-    apt-get -y update \
+    DEBIAN_FRONTEND=noninteractive \
+ && apt-get -y update \
  && apt-get -y upgrade \
  && apt-get install -y --no-install-recommends git build-essential \
         autoconf wget libz-dev libbz2-dev libmagic-dev libnatpmp-dev \
@@ -37,7 +38,7 @@ RUN \
  && opam init --disable-sandboxing --bare --yes --jobs=1 \
  && eval $(opam env) \
  && opam switch create --yes --jobs=1 4.14.1 \
- && eval $(opam env --switch=ocaml-custom) \
+ && eval $(opam env --switch=4.14.1) \
  && opam install --yes --jobs=1 camlp4.4.14+1 \
  && ./configure --prefix=$PWD/out --enable-batch --enable-upnp-natpmp --disable-gnutella --disable-gnutella2 --disable-gui \
  && make -j1 \
@@ -46,19 +47,20 @@ RUN \
 FROM ubuntu:noble
 
 RUN \
-    apt-get -y update && \
-    apt-get -y upgrade && \
-    apt-get install --no-install-recommends -y \
+    DEBIAN_FRONTEND=noninteractive \
+ && apt-get -y update && \
+ && apt-get -y upgrade \
+ && apt-get install --no-install-recommends -y \
         zlib1g libbz2-1.0 libmagic1 libgd3 netcat-openbsd \
-        libnatpmp1 libupnp17t64 libminiupnpc17 librsvg2-2 librsvg2-common && \
-    apt-get install -y supervisor && \
-    apt-get install -y procps && \
-    apt-get -y --purge autoremove && \
-    rm -rf /var/lib/apt/lists/* && \
-    rm -rf /var/log/mldonkey && \
-    rm -rf /var/lib/mldonkey && \
-    mkdir -p /var/lib/mldonkey && \
-    mkdir /usr/lib/mldonkey/
+        libnatpmp1 libupnp17t64 libminiupnpc17 librsvg2-2 librsvg2-common \
+ && apt-get install -y supervisor \
+ && apt-get install -y procps \
+ && apt-get -y --purge autoremove \
+ && rm -rf /var/lib/apt/lists/* \
+ && rm -rf /var/log/mldonkey \
+ && rm -rf /var/lib/mldonkey \
+ && mkdir -p /var/lib/mldonkey \
+ && mkdir /usr/lib/mldonkey/
 
 RUN useradd -ms /bin/bash mldonkey \
  && mkdir -p /var/log/supervisor \
