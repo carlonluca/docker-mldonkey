@@ -32,7 +32,7 @@ RUN \
     cd mldonkey && \
     git checkout b86cd00b && \
     mkdir -p patches && \
-    ./configure --prefix=$PWD/out --enable-batch --enable-upnp-natpmp --disable-gnutella --disable-gnutella2 --disable-gui && \
+    ./configure --prefix=$PWD/out --enable-batch --enable-upnp-natpmp --enable-gnutella --enable-gnutella2 --disable-gui && \
     make -j1 && \
     make install
 
