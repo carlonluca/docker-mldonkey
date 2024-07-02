@@ -18,7 +18,52 @@ Currently, dev images include the dark theme and all the most recent commits to 
 
 **Refer to https://bugfreeblog.duckdns.org/docker-images-for-the-mldonkey-service for more info about each available image.**
 
-## Usage
+## Owner and permissions
+
+The mldonkey daemon running inside the container must be able to read and modify
+data inside the volume. You'll also probably want to properly share data with a
+user available in your host. The mldonkey daemon always use the **mldonkey** user and
+group, but you can setup the environment so that the container assignes the desired
+uid and gid to the mldonkey user and group inside the container. This will allow you
+to see those files with the proper permissions in your host.
+
+### Example
+
+Let's assume your user is named _luca_ and has the uid 1001, and that you want your
+data to be assigned group _luca_, which has the same gid 1001. In this case you
+can ask the container to assign the value 1001 to uid and gid _mldonkey_ in the container
+by using the env variables:
+
+```
+MLDONKEY_UID=1001
+MLDONKEY_GID=1001
+```
+
+This will establish a mapping between user _luca_ in the host to user _mldonkey_ in the
+container, and group _luca_ in the host with group _mldonkey_ in the container.
+
+## Ports
+
+|Network|Type|MLDonkey default|Configuration file|
+|---|---|---|---|
+|http_port|HTTP|4080|downloads.ini|
+|mldonkey-next interface|HTTP|4081|container remap|
+|telnet_port|TCP|4000|downloads.ini|
+|gui_port|TCP|4001|downloads.ini|
+|websocket|TCP|4002|container remap|
+|eDonkey2000|TCP|random|donkey.ini|
+|eDonkey2000|UDP|TCP port + 4|donkey.ini|
+|Kad|TCP|random|donkey.ini, Kademlia section|
+|Kad1|UDP|Same as TCP|donkey.ini, Kademlia section|
+|Overnet|TCP|random|donkey.ini, Overnet section|
+|Overnet|UDP|Same as TCP|donkey.ini, Overnet section|
+|BitTorrent Client |TCP|6882|bittorrent.ini|
+|BitTorrent Tracker |TCP|6881|bittorrent.ini|
+|BitTorrent DHT |UDP|random|bittorrent.ini|
+|DirectConnect|TCP|4444|directconnect.ini|
+|DirectConnect|UDP|Same as TCP|directconnect.ini|
+
+## Running the Container
 
 To run mldonkey using this image:
 
@@ -46,39 +91,37 @@ $ docker run -i -t -v "`pwd`/data:/var/lib/mldonkey" carlonluca/mldonkey
 Your data will be available under `data/incoming` directory where you
 run the `docker run` command.
 
-## Owner and permissions
-
-The mldonkey daemon running inside the container must be able to read and modify
-data inside the volume. You'll also probably want to properly share data with a
-user available in your host. The mldonkey daemon always use the **mldonkey** user and
-group, but you can setup the environment so that the container assignes the desired
-uid and gid to the mldonkey user and group inside the container. This will allow you
-to see those files with the proper permissions in your host.
-
-### Example
-
-Let's assume your user is named _luca_ and has the uid 1001, and that you want your
-data to be assigned group _luca_, which has the same gid 1001. In this case you
-can ask the container to assign the value 1001 to uid and gid _mldonkey_ in the container
-by using the env variables:
+You'll probably also want to map some ports to be able to access the daemon. For example:
 
 ```
-MLDONKEY_UID=1001
-MLDONKEY_GID=1001
+docker create --name=mldonkey \ 
+              -v <path to core files>:/var/lib/mldonkey:rw \
+              -e MLDONKEY_GID=<gid> \
+              -e MLDONKEY_UID=<uid> \
+              -e TZ=<timezone> \
+              -e MLDONKEY_ADMIN_PASSWORD=password \
+              -p 4000:4000 \
+              -p 4001:4001 \
+              -p 4002:4002 \
+              -p 4080:4080 \
+              -p 4081:4081 \
+              -p <edonkey_port>:<edonkey_port> \
+              -p <edonkey_port>:<edonkey_port>/udp \
+              -p <kad>:<kad> \
+              -p <kad>:<kad>/udp \
+              -p <overnet>:<overnet> \
+              -p <overnet>:<overnet>/udp \
+              -p 6881:6881 \
+              -p 6882:6882 \
+              -p 3617:3617/udp \
+              -p 4444:4444 \
+              -p 4444:4444/udp \
+              carlonluca/mldonkey:dev
 ```
 
-This will establish a mapping between user _luca_ in the host to user _mldonkey_ in the
-container, and group _luca_ in the host with group _mldonkey_ in the container.
-
+NOTE: for the randomly chosen ports, you'll have to run the container first and let the core create his conf files. Then create the container again by remapping the chosen ports.
 
 ## Notes for Docker for Mac
 
 mldonkey does not like the `temp` directory to reside in Mac filesystem. It is
 better to mount `/var/lib/mldonkey/temp` inside the Docker VM filesystem.
-
-The included `docker-compose.yml` set up everything for you. To run in Docker
-for Mac,
-
-```
-$ docker-compose up
-```
