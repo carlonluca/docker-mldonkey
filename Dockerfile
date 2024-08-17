@@ -30,7 +30,7 @@ RUN \
     apt-get update && \
     git clone https://github.com/carlonluca/mldonkey.git && \
     cd mldonkey && \
-    git checkout 99d26a61 && \
+    git checkout 8032a23 && \
     mkdir -p patches && \
     ./configure --prefix=$PWD/out --enable-batch --enable-upnp-natpmp --enable-gnutella --enable-gnutella2 --disable-gui && \
     make -j1 && \
