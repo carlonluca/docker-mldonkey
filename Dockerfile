@@ -44,7 +44,7 @@ RUN \
     apt-get -y upgrade && \
     apt-get install --no-install-recommends -y \
         zlib1g libbz2-1.0 libmagic1 libgd3 netcat-openbsd \
-        libnatpmp1 libupnp17t64 libminiupnpc17 librsvg2-2 librsvg2-common && \
+        libnatpmp1 libupnp17t64 libminiupnpc18 librsvg2-2 librsvg2-common && \
     apt-get install -y supervisor && \
     apt-get install -y procps && \
     apt-get -y --purge autoremove && \
