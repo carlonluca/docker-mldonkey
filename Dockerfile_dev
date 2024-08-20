@@ -1,4 +1,4 @@
-FROM debian:trixie AS builder
+FROM debian:trixie
 
 RUN \
     export DEBIAN_FRONTEND=noninteractive \
