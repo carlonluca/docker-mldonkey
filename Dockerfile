@@ -26,35 +26,35 @@ RUN \
 FROM carlonluca/mldonkey-dev:bookworm AS builder
 
 RUN \
-    export DEBIAN_FRONTEND=noninteractive && \
-    apt-get update && \
-    apt-get -y upgrade && \
-    apt-get install libc6-dev && \
-    git clone https://github.com/carlonluca/mldonkey.git && \
-    cd mldonkey && \
-    git checkout 133fdfdd && \
-    mkdir -p patches && \
-    ./configure --prefix=$PWD/out --enable-batch --enable-upnp-natpmp --enable-gnutella --enable-gnutella2 --disable-gui && \
-    make -j1 && \
-    make install
+    export DEBIAN_FRONTEND=noninteractive \
+ && apt-get -y update \
+ && apt-get -y upgrade \
+ && apt-get install libc6-dev \
+ && git clone https://github.com/carlonluca/mldonkey.git \
+ && cd mldonkey \
+ && git checkout 133fdfdd \
+ && mkdir -p patches \
+ && ./configure --prefix=$PWD/out --enable-batch --enable-upnp-natpmp --enable-gnutella --enable-gnutella2 --disable-gui \
+ && make -j1 \
+ && make install
 
 FROM debian:bookworm
 
 RUN \
-    export DEBIAN_FRONTEND=noninteractive && \
-    apt-get -y update && \
-    apt-get -y upgrade && \
-    apt-get install --no-install-recommends -y \
+    export DEBIAN_FRONTEND=noninteractive \
+ && apt-get -y update \
+ && apt-get -y upgrade \
+ && apt-get install --no-install-recommends -y \
         zlib1g libbz2-1.0 libmagic1 libgd3 netcat-openbsd \
-        libnatpmp1 libupnp13 libminiupnpc17 librsvg2-2 librsvg2-common && \
-    apt-get install -y supervisor && \
-    apt-get install -y procps && \
-    apt-get -y --purge autoremove && \
-    rm -rf /var/lib/apt/lists/* && \
-    rm -rf /var/log/mldonkey && \
-    rm -rf /var/lib/mldonkey && \
-    mkdir -p /var/lib/mldonkey && \
-    mkdir /usr/lib/mldonkey/
+        libnatpmp1 libupnp13 libminiupnpc17 librsvg2-2 librsvg2-common \
+ && apt-get install -y supervisor \
+ && apt-get install -y procps \
+ && apt-get -y --purge autoremove \
+ && rm -rf /var/lib/apt/lists/* \
+ && rm -rf /var/log/mldonkey \
+ && rm -rf /var/lib/mldonkey \
+ && mkdir -p /var/lib/mldonkey \
+ && mkdir /usr/lib/mldonkey/
 
 RUN useradd -ms /bin/bash mldonkey \
  && mkdir -p /var/log/supervisor \
