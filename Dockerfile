@@ -23,11 +23,12 @@ RUN \
  && npm i --maxsockets 1 \
  && ng build
 
-FROM carlonluca/mldonkey-dev:trixie2 AS builder
+FROM carlonluca/mldonkey-dev:bookworm AS builder
 
 RUN \
     export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
+    apt-get -y upgrade && \
     git clone https://github.com/carlonluca/mldonkey.git && \
     cd mldonkey && \
     git checkout 9e3401e && \
@@ -36,7 +37,7 @@ RUN \
     make -j1 && \
     make install
 
-FROM debian:trixie
+FROM debian:bookworm
 
 RUN \
     export DEBIAN_FRONTEND=noninteractive && \
@@ -44,7 +45,7 @@ RUN \
     apt-get -y upgrade && \
     apt-get install --no-install-recommends -y \
         zlib1g libbz2-1.0 libmagic1 libgd3 netcat-openbsd \
-        libnatpmp1 libupnp17t64 libminiupnpc18 librsvg2-2 librsvg2-common && \
+        libnatpmp1 libupnp13 libminiupnpc17 librsvg2-2 librsvg2-common && \
     apt-get install -y supervisor && \
     apt-get install -y procps && \
     apt-get -y --purge autoremove && \
