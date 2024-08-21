@@ -1,4 +1,4 @@
-FROM debian:trixie
+FROM debian:bookworm
 
 RUN \
     export DEBIAN_FRONTEND=noninteractive \
