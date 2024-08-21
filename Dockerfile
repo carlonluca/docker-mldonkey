@@ -29,6 +29,7 @@ RUN \
     export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
     apt-get -y upgrade && \
+    apt-get install libc6-dev && \
     git clone https://github.com/carlonluca/mldonkey.git && \
     cd mldonkey && \
     git checkout 133fdfdd && \
