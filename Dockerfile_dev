@@ -1,4 +1,4 @@
-FROM debian:bookworm
+FROM ubuntu:noble
 
 RUN \
     export DEBIAN_FRONTEND=noninteractive \
@@ -6,4 +6,4 @@ RUN \
  && apt-get install -y --no-install-recommends git build-essential \
         autoconf wget libz-dev libbz2-dev libmagic-dev libnatpmp-dev \
         libupnp-dev libgd-dev ca-certificates ocaml camlp4 ocaml-compiler-libs ocaml-nox \
-        libminiupnpc-dev librsvg2-dev libnum-ocaml-dev
+        libminiupnpc-dev librsvg2-dev libnum-ocaml-dev libc6-dev
