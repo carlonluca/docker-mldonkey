@@ -2,7 +2,7 @@ stages:
   - build
 
 docker-build:
-  image: carlonluca/docker-multiarch:latest
+  image: docker:27.1.2-dind
   stage: build
   services:
     - docker:dind
