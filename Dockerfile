@@ -23,7 +23,7 @@ RUN \
  && npm i --maxsockets 1 \
  && ng build
 
-FROM carlonluca/mldonkey-dev:bookworm AS builder
+FROM carlonluca/mldonkey-dev:noble AS builder
 
 RUN \
     export DEBIAN_FRONTEND=noninteractive \
@@ -38,15 +38,18 @@ RUN \
  && make -j1 \
  && make install
 
-FROM debian:bookworm
+FROM ubuntu:noble
+
+# Remove the ubuntu user.
+RUN touch /var/mail/ubuntu && chown ubuntu /var/mail/ubuntu && userdel -r ubuntu
 
 RUN \
     export DEBIAN_FRONTEND=noninteractive \
  && apt-get -y update \
  && apt-get -y upgrade \
  && apt-get install --no-install-recommends -y \
-        zlib1g libbz2-1.0 libmagic1 libgd3 netcat-openbsd \
-        libnatpmp1 libupnp13 libminiupnpc17 librsvg2-2 librsvg2-common \
+        zlib1g libbz2-1.0 libmagic1t64 libgd3 netcat-openbsd \
+        libnatpmp1t64 libupnp17t64 libminiupnpc17 librsvg2-2 librsvg2-common \
  && apt-get install -y supervisor \
  && apt-get install -y procps \
  && apt-get -y --purge autoremove \
