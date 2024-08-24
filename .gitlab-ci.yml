@@ -14,8 +14,7 @@ docker-build:
     - docker buildx create --use --name buildkit_docker_mldonkey
     - docker buildx build --push --platform linux/arm64/v8,linux/amd64
           -t carlonluca/mldonkey:$VERSION
-          -t carlonluca/mldonkey:dev
-          -t carlonluca/mldonkey:latest
+          -t carlonluca/mldonkey:latest-official
           .
     - docker buildx stop buildkit_docker_mldonkey
     - docker buildx rm buildkit_docker_mldonkey
