@@ -1,4 +1,4 @@
-FROM node:22.4.1-bookworm AS builder-next
+FROM node:22.7.0-bookworm AS builder-next
 
 WORKDIR /root/
 RUN \
