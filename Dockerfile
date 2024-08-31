@@ -8,7 +8,7 @@ RUN \
  && cd /root/ \
  && git clone https://github.com/carlonluca/mldonkey-next.git \
  && cd mldonkey-next/mldonkey-next-backend \
- && git checkout aa96220 \
+ && git checkout 2f1b144 \
  && npm config set fetch-timeout 600000 \
  && npm i --maxsockets 1 \
  && npm run build \
