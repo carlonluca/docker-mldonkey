@@ -1,4 +1,4 @@
-FROM node:22.7.0-bookworm AS builder-next
+FROM node:23.3.0-bookworm AS builder-next
 
 WORKDIR /root/
 RUN \
@@ -8,7 +8,7 @@ RUN \
  && cd /root/ \
  && git clone https://github.com/carlonluca/mldonkey-next.git \
  && cd mldonkey-next/mldonkey-next-backend \
- && git checkout cc536a2 \
+ && git checkout f613efa \
  && npm config set fetch-timeout 600000 \
  && npm i --maxsockets 1 \
  && npm run build \
@@ -32,7 +32,7 @@ RUN \
  && apt-get install libc6-dev \
  && git clone https://github.com/carlonluca/mldonkey.git \
  && cd mldonkey \
- && git checkout 17fff849 \
+ && git checkout b1cc3e44 \
  && mkdir -p patches \
  && ./configure --prefix=$PWD/out --enable-batch --enable-upnp-natpmp --enable-gnutella --enable-gnutella2 --disable-gui \
  && make -j1 \
