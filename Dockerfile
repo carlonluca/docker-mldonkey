@@ -21,7 +21,7 @@ RUN \
  && cd mldonkey-next-frontend \
  && npm install -g @angular/cli \
  && npm i --maxsockets 1 \
- && ng build
+ && npm run build
 
 FROM carlonluca/mldonkey-dev:noble AS builder
 
