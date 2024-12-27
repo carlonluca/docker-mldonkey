@@ -1,6 +1,12 @@
 # mldonkey docker image
 
-This repository hosts the Dockerfile for building mldonkey docker image. Note that this image includes both the current version of mldonkey from the official repo https://github.com/ygrek/mldonkey, more fixes from my fork https://github.com/carlonluca/mldonkey, a new websocket interface for mldonkey and a new responsibe webapp from https://github.com/carlonluca/mldonkey-next.
+This repository hosts the Dockerfile for building the mldonkey docker image.
+
+This image includes:
+
+* mldonkey core from the [official mldonkey repo](https://github.com/ygrek/mldonkey);
+* additional patches from my [mldonkey fork](https://github.com/carlonluca/mldonkey);
+* [mldonkey-next](https://github.com/carlonluca/mldonkey-next), a modern web client for mldonkey written in Angular (see the [official repo](https://github.com/carlonluca/mldonkey-next) for other native clients).
 
 ![Screenshot](shot.png)
 
