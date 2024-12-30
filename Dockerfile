@@ -1,4 +1,4 @@
-FROM node:23.3.0-bookworm AS builder-next
+FROM node:23.5.0-bookworm AS builder-next
 
 WORKDIR /root/
 RUN \
@@ -8,7 +8,7 @@ RUN \
  && cd /root/ \
  && git clone https://github.com/carlonluca/mldonkey-next.git \
  && cd mldonkey-next/mldonkey-next-backend \
- && git checkout 69aa971 \
+ && git checkout bc40f4d6 \
  && npm config set fetch-timeout 600000 \
  && npm i --maxsockets 1 \
  && npm run build \
