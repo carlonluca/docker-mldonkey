@@ -8,7 +8,7 @@ RUN \
  && cd /root/ \
  && git clone https://github.com/carlonluca/mldonkey-next.git \
  && cd mldonkey-next/mldonkey-next-backend \
- && git checkout 83951b71 \
+ && git checkout fede410 \
  && npm config set fetch-timeout 600000 \
  && npm i --maxsockets 1 \
  && npm run build \
@@ -32,7 +32,7 @@ RUN \
  && apt-get install libc6-dev \
  && git clone https://github.com/carlonluca/mldonkey.git \
  && cd mldonkey \
- && git checkout 9ec3b5a \
+ && git checkout 4e5050f3 \
  && mkdir -p patches \
  && ./configure --prefix=$PWD/out --enable-batch --enable-upnp-natpmp --enable-gnutella --enable-gnutella2 --disable-gui \
  && make -j1 \
@@ -50,6 +50,7 @@ RUN \
  && apt-get install --no-install-recommends -y \
         zlib1g libbz2-1.0 libmagic1t64 libgd3 netcat-openbsd \
         libnatpmp1t64 libupnp17t64 libminiupnpc17 librsvg2-2 librsvg2-common \
+        libcurl-ocaml \
  && apt-get install -y supervisor \
  && apt-get install -y procps \
  && apt-get -y --purge autoremove \
