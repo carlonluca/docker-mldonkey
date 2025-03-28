@@ -32,7 +32,7 @@ RUN \
  && apt-get install libc6-dev \
  && git clone https://github.com/carlonluca/mldonkey.git \
  && cd mldonkey \
- && git checkout 4e5050f3 \
+ && git checkout 9aa6796c \
  && mkdir -p patches \
  && ./configure --prefix=$PWD/out --enable-batch --enable-upnp-natpmp --enable-gnutella --enable-gnutella2 --disable-gui \
  && make -j1 \
