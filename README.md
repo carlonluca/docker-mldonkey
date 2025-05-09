@@ -1,3 +1,7 @@
+# This is my first time using Github so don't get too upset if I've done something wrong :)
+# I've only created this branch to share my docker-compse.yml and .env files in order to help the people who want to use this awesome image using docker compose.
+#From this point, is the original readme.md
+
 # mldonkey docker image
 
 This repository hosts the Dockerfile for building the mldonkey docker image.
