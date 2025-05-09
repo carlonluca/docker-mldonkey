@@ -3,6 +3,11 @@ This is my first time using Github so don't get too upset if I've done something
 
 I've only created this branch to share my docker-compse.yml and .env files in order to help the people who want to use this awesome image using docker compose.
 
+How to use it:
+1. Create a folder (i.e. mkdir /home/docker/mldonkey) and go inside (i.e. cd /home/docker/mldonkey)
+2. Create the files (i.e. sudo nado docker-compose.yml and sudo nano .env)
+3. Launch the container executing (i.e. sudo docker-compose -p "mldonkey" up -d)
+
 From this point, is the original readme.md
 
 # mldonkey docker image
