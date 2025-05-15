@@ -101,7 +101,7 @@ run the `docker run` command.
 You'll probably also want to map some ports to be able to access the daemon. For example:
 
 ```
-docker create --name=mldonkey \ 
+docker create --name=mldonkey \
               -v <path to core files>:/var/lib/mldonkey:rw \
               -e MLDONKEY_GID=<gid> \
               -e MLDONKEY_UID=<uid> \
