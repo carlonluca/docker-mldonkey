@@ -72,33 +72,7 @@ container, and group _luca_ in the host with group _mldonkey_ in the container.
 
 ## Running the Container
 
-To run mldonkey using this image:
-
-```
-$ docker run -i -t carlonluca/mldonkey
-```
-
-You may change the admin password by using the comand `useradd admin <password`,
-or you can specify `MLDONKEY_ADMIN_PASSWORD` environment variable with
-a password:
-
-```
-$ docker run -i -t -e MLDONKEY_ADMIN_PASSWORD=supersecret carlonluca/mldonkey
-```
-
-mldonkey stores data inside `/var/lib/mldonkey`. You may want to mount the
-data directory to local filesystem. Doing this will persist the data
-when you re-create the docker container. It is also easier to get downloaded
-files this way.
-
-```
-$ docker run -i -t -v "`pwd`/data:/var/lib/mldonkey" carlonluca/mldonkey
-```
-
-Your data will be available under `data/incoming` directory where you
-run the `docker run` command.
-
-You'll probably also want to map some ports to be able to access the daemon. For example:
+This is an example command to run docker-mldonkey:
 
 ```
 docker create --name=mldonkey \
@@ -126,9 +100,10 @@ docker create --name=mldonkey \
               carlonluca/mldonkey:dev
 ```
 
+mldonkey stores data inside `/var/lib/mldonkey`. You may want to mount the data directory to local filesystem. Doing this will persist the data when you re-create the docker container. It is also easier to get downloaded files this way.
+
 NOTE: for the randomly chosen ports, you'll have to run the container first and let the core create his conf files. Then create the container again by remapping the chosen ports.
 
 ## Notes for Docker for Mac
 
-mldonkey does not like the `temp` directory to reside in Mac filesystem. It is
-better to mount `/var/lib/mldonkey/temp` inside the Docker VM filesystem.
+mldonkey does not like the `temp` directory to reside in Mac filesystem. It is better to mount `/var/lib/mldonkey/temp` inside the Docker VM filesystem.
