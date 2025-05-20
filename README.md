@@ -138,5 +138,5 @@ I've created a docker-compse.yml and .env files in order to help the people who 
 
 How to use it:
 1. Create a folder (i.e. mkdir /home/docker/mldonkey) and go inside (i.e. cd /home/docker/mldonkey)
-2. Create the files (i.e. nado docker-compose.yml and nano .env)
+2. Create the files (i.e. nano docker-compose.yml and nano .env)
 3. Launch the container executing (i.e. docker compose -p "mldonkey" up -d)
