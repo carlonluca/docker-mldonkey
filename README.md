@@ -133,7 +133,7 @@ NOTE: for the randomly chosen ports, you'll have to run the container first and 
 mldonkey does not like the `temp` directory to reside in Mac filesystem. It is
 better to mount `/var/lib/mldonkey/temp` inside the Docker VM filesystem.
 
-# Notes for Docker-Compose?
+## Notes for Docker-Compose
 I've created a docker-compse.yml and .env files in order to help the people who want to use this awesome image using docker compose.
 
 How to use it:
