@@ -72,36 +72,10 @@ container, and group _luca_ in the host with group _mldonkey_ in the container.
 
 ## Running the Container
 
-To run mldonkey using this image:
+This is an example command to run docker-mldonkey:
 
 ```
-$ docker run -i -t carlonluca/mldonkey
-```
-
-You may change the admin password by using the comand `useradd admin <password`,
-or you can specify `MLDONKEY_ADMIN_PASSWORD` environment variable with
-a password:
-
-```
-$ docker run -i -t -e MLDONKEY_ADMIN_PASSWORD=supersecret carlonluca/mldonkey
-```
-
-mldonkey stores data inside `/var/lib/mldonkey`. You may want to mount the
-data directory to local filesystem. Doing this will persist the data
-when you re-create the docker container. It is also easier to get downloaded
-files this way.
-
-```
-$ docker run -i -t -v "`pwd`/data:/var/lib/mldonkey" carlonluca/mldonkey
-```
-
-Your data will be available under `data/incoming` directory where you
-run the `docker run` command.
-
-You'll probably also want to map some ports to be able to access the daemon. For example:
-
-```
-docker create --name=mldonkey \ 
+docker create --name=mldonkey \
               -v <path to core files>:/var/lib/mldonkey:rw \
               -e MLDONKEY_GID=<gid> \
               -e MLDONKEY_UID=<uid> \
@@ -126,17 +100,51 @@ docker create --name=mldonkey \
               carlonluca/mldonkey:dev
 ```
 
+mldonkey stores data inside `/var/lib/mldonkey`. You may want to mount the data directory to local filesystem. Doing this will persist the data when you re-create the docker container. It is also easier to get downloaded files this way.
+
 NOTE: for the randomly chosen ports, you'll have to run the container first and let the core create his conf files. Then create the container again by remapping the chosen ports.
+
+### Running using Docker Compose
+
+Create a docker compose file docker-compose.yml (or add to an existing one):
+
+```yaml
+services:
+    mldonkey:
+        container_name: mldonkey
+        restart: unless-stopped
+        environment:
+            - MLDONKEY_ADMIN_PASSWORD=$ADMIN_PWD
+            - MLDONKEY_UID=<uid>
+            - MLDONKEY_GID=<gid>
+            - TZ=<timezone>
+        ports:
+            - 4000:4000
+            - 4001:4001
+            - 4002:4002
+            - 4080:4080
+            - 4081:4081
+            - <edonkey_port>:<edonkey_port>
+            - <edonkey_port>:<edonkey_port>/udp
+            - <kad>:<kad>
+            - <kad>:<kad>/udp
+            - <overnet>:<overnet>
+            - <overnet>:<overnet>/udp
+            - 6881:6881
+            - 6882:6882
+            - 3617:3617/udp
+            - 4444:4444
+            - 4444:4444/udp
+        volumes:
+            - <path to core files>:/var/lib/mldonkey
+```
+
+now run the configuration:
+
+```
+docker compose up -d
+```
 
 ## Notes for Docker for Mac
 
-mldonkey does not like the `temp` directory to reside in Mac filesystem. It is
-better to mount `/var/lib/mldonkey/temp` inside the Docker VM filesystem.
-
-## Notes for Docker-Compose
-I've created a docker-compse.yml and .env files in order to help the people who want to use this awesome image using docker compose.
-
-How to use it:
-1. Create a folder (i.e. mkdir /home/docker/mldonkey) and go inside (i.e. cd /home/docker/mldonkey)
-2. Create the files (i.e. nano docker-compose.yml and nano .env)
-3. Launch the container (i.e. docker compose -p "mldonkey" up -d)
+mldonkey does not like the `temp` directory to reside in Mac filesystem. It is better to mount `/var/lib/mldonkey/temp` inside the Docker VM filesystem.
