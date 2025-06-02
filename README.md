@@ -104,6 +104,47 @@ mldonkey stores data inside `/var/lib/mldonkey`. You may want to mount the data 
 
 NOTE: for the randomly chosen ports, you'll have to run the container first and let the core create his conf files. Then create the container again by remapping the chosen ports.
 
+### Running using Docker Compose
+
+Create a docker compose file docker-compose.yml (or add to an existing one):
+
+```yaml
+services:
+    mldonkey:
+        container_name: mldonkey
+        restart: unless-stopped
+        environment:
+            - MLDONKEY_ADMIN_PASSWORD=$ADMIN_PWD
+            - MLDONKEY_UID=<uid>
+            - MLDONKEY_GID=<gid>
+            - TZ=<timezone>
+        ports:
+            - 4000:4000
+            - 4001:4001
+            - 4002:4002
+            - 4080:4080
+            - 4081:4081
+            - <edonkey_port>:<edonkey_port>
+            - <edonkey_port>:<edonkey_port>/udp
+            - <kad>:<kad>
+            - <kad>:<kad>/udp
+            - <overnet>:<overnet>
+            - <overnet>:<overnet>/udp
+            - 6881:6881
+            - 6882:6882
+            - 3617:3617/udp
+            - 4444:4444
+            - 4444:4444/udp
+        volumes:
+            - <path to core files>:/var/lib/mldonkey
+```
+
+now run the configuration:
+
+```
+docker compose up -d
+```
+
 ## Notes for Docker for Mac
 
 mldonkey does not like the `temp` directory to reside in Mac filesystem. It is better to mount `/var/lib/mldonkey/temp` inside the Docker VM filesystem.
