@@ -50,7 +50,7 @@ RUN \
  && apt-get install --no-install-recommends -y \
         zlib1g libbz2-1.0 libmagic1t64 libgd3 netcat-openbsd \
         libnatpmp1t64 libupnp17t64 libminiupnpc17 librsvg2-2 librsvg2-common \
-        libcurl-ocaml \
+        libcurl-ocaml libatomic1 \
  && apt-get install -y supervisor \
  && apt-get install -y procps \
  && apt-get -y --purge autoremove \
