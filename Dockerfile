@@ -26,15 +26,19 @@ RUN \
 FROM carlonluca/mldonkey-dev:noble AS builder
 
 RUN \
-    export DEBIAN_FRONTEND=noninteractive \
+    DEBIAN_FRONTEND=noninteractive \
  && apt-get -y update \
  && apt-get -y upgrade \
- && apt-get install libc6-dev \
+ && apt-get install -y --no-install-recommends opam \
  && git clone https://github.com/carlonluca/mldonkey.git \
  && cd mldonkey \
  && git checkout 9aa6796c \
- && mkdir -p patches \
- && ./configure --prefix=$PWD/out --enable-batch --enable-upnp-natpmp --enable-gnutella --enable-gnutella2 --disable-gui \
+ && opam init --disable-sandboxing --bare --yes --jobs=1 \
+ && eval $(opam env) \
+ && opam switch create --yes --jobs=1 4.14.1 \
+ && eval $(opam env --switch=4.14.1) \
+ && opam install --yes --jobs=1 camlp4.4.14+1 \
+ && ./configure --prefix=$PWD/out --enable-batch --enable-upnp-natpmp --disable-gnutella --disable-gnutella2 --disable-gui \
  && make -j1 \
  && make install
 
