@@ -23,26 +23,32 @@ RUN \
  && npm i --maxsockets 1 \
  && npm run build
 
-FROM carlonluca/mldonkey-dev:noble AS builder
+FROM ubuntu:oracular AS builder
 
 RUN \
     DEBIAN_FRONTEND=noninteractive \
  && apt-get -y update \
  && apt-get -y upgrade \
+ && apt-get install -y --no-install-recommends ca-certificates libcurl4-gnutls-dev zlib1g-dev git-lfs m4 \
  && apt-get install -y --no-install-recommends opam \
+ && apt-get install -y --no-install-recommends build-essential \
+    autoconf wget libz-dev libbz2-dev libmagic-dev libnatpmp-dev \
+    libupnp-dev libgd-dev ca-certificates libminiupnpc-dev librsvg2-dev \
+    libc6-dev \
  && git clone https://github.com/carlonluca/mldonkey.git \
  && cd mldonkey \
- && git checkout 9aa6796c \
- && opam init --disable-sandboxing --bare --yes --jobs=1 \
+ && git checkout c47dfa10 \
+ && opam init --disable-sandboxing --bare --yes --jobs=$(nproc) \
  && eval $(opam env) \
- && opam switch create --yes --jobs=1 4.14.1 \
- && eval $(opam env --switch=4.14.1) \
- && opam install --yes --jobs=1 camlp4.4.14+1 \
- && ./configure --prefix=$PWD/out --enable-batch --enable-upnp-natpmp --disable-gnutella --disable-gnutella2 --disable-gui \
- && make -j1 \
- && make install
+ && opam switch create --yes --jobs=1 4.14.2 \
+ && eval $(opam env --switch=4.14.2) \
+ && opam install . --deps-only --yes --jobs=$(nproc) \
+ && opam exec -- ./configure --prefix=$PWD/out --enable-batch --enable-upnp-natpmp --enable-gnutella --enable-gnutella2 --disable-gui \
+ && opam exec -- make -j1 \
+ && opam exec -- make utils \
+ && opam exec -- make install
 
-FROM ubuntu:noble
+FROM ubuntu:oracular
 
 # Remove the ubuntu user.
 RUN touch /var/mail/ubuntu && chown ubuntu /var/mail/ubuntu && userdel -r ubuntu
@@ -53,8 +59,8 @@ RUN \
  && apt-get -y upgrade \
  && apt-get install --no-install-recommends -y \
         zlib1g libbz2-1.0 libmagic1t64 libgd3 netcat-openbsd \
-        libnatpmp1t64 libupnp17t64 libminiupnpc17 librsvg2-2 librsvg2-common \
-        libcurl-ocaml libatomic1 \
+        libnatpmp1t64 libupnp17t64 miniupnpc librsvg2-2 librsvg2-common \
+        libatomic1 libcurl4-gnutls-dev \
  && apt-get install -y supervisor \
  && apt-get install -y procps \
  && apt-get -y --purge autoremove \
