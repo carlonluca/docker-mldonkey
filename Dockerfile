@@ -6,7 +6,9 @@ RUN \
  && apt-get upgrade -y \
  && apt-get install -y ca-certificates curl gnupg git libatomic1 build-essential \
  && cd /root/ \
+ && git config --global user.name "Luca Carlon" \
  && git clone https://github.com/carlonluca/mldonkey-next.git \
+ && git config --global user.email "carlon.luca@gmail.com" \
  && cd mldonkey-next/mldonkey-next-backend \
  && git checkout 056afe2 \
  && npm config set fetch-timeout 600000 \
