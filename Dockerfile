@@ -39,7 +39,7 @@ RUN \
     libc6-dev \
  && git clone https://github.com/carlonluca/mldonkey.git \
  && cd mldonkey \
- && git checkout bc8ad6de \
+ && git checkout b4aa037c \
  && opam init --disable-sandboxing --bare --yes --jobs=$(nproc) \
  && eval $(opam env) \
  && opam switch create --yes --jobs=$(nproc) 4.14.2 \
