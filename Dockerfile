@@ -42,8 +42,8 @@ RUN \
  && git checkout bc8ad6de \
  && opam init --disable-sandboxing --bare --yes --jobs=$(nproc) \
  && eval $(opam env) \
- && opam switch create --yes --jobs=$(nproc) 4.14.3 \
- && eval $(opam env --switch=4.14.3) \
+ && opam switch create --yes --jobs=$(nproc) 4.14.2 \
+ && eval $(opam env --switch=4.14.2) \
  && opam install . --deps-only --yes --jobs=$(nproc) \
  && opam exec -- ./configure --prefix=$PWD/out --enable-batch --enable-upnp-natpmp --enable-gnutella --enable-gnutella2 --disable-gui \
  && opam exec -- make -j1 \
