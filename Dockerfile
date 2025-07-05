@@ -25,7 +25,7 @@ RUN \
  && npm i --maxsockets 1 \
  && npm run build
 
-FROM ubuntu:oracular AS builder
+FROM ubuntu:plucky AS builder
 
 RUN \
     DEBIAN_FRONTEND=noninteractive \
@@ -42,15 +42,15 @@ RUN \
  && git checkout c47dfa10 \
  && opam init --disable-sandboxing --bare --yes --jobs=$(nproc) \
  && eval $(opam env) \
- && opam switch create --yes --jobs=$(nproc) 4.14.2 \
- && eval $(opam env --switch=4.14.2) \
+ && opam switch create --yes --jobs=$(nproc) 4.14.3 \
+ && eval $(opam env --switch=4.14.3) \
  && opam install . --deps-only --yes --jobs=$(nproc) \
  && opam exec -- ./configure --prefix=$PWD/out --enable-batch --enable-upnp-natpmp --enable-gnutella --enable-gnutella2 --disable-gui \
  && opam exec -- make -j1 \
  && opam exec -- make utils \
  && opam exec -- make install
 
-FROM ubuntu:oracular
+FROM ubuntu:plucky
 
 # Remove the ubuntu user.
 RUN touch /var/mail/ubuntu && chown ubuntu /var/mail/ubuntu && userdel -r ubuntu
