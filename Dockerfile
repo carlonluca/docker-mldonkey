@@ -32,9 +32,7 @@ RUN \
  && apt-get -y update \
  && apt-get -y upgrade \
  && apt-get install -y --no-install-recommends ca-certificates libcurl4-gnutls-dev zlib1g-dev git-lfs m4 \
- && apt-get install -y --no-install-recommends opam \
- && apt-get install -y --no-install-recommends build-essential \
-    autoconf wget libz-dev libbz2-dev libmagic-dev libnatpmp-dev \
+    opam build-essential autoconf wget libz-dev libbz2-dev libmagic-dev libnatpmp-dev \
     libupnp-dev libgd-dev ca-certificates libminiupnpc-dev librsvg2-dev \
     libc6-dev \
  && git clone https://github.com/carlonluca/mldonkey.git \
