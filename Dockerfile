@@ -34,19 +34,17 @@ RUN \
  && apt-get install -y --no-install-recommends ca-certificates libcurl4-gnutls-dev zlib1g-dev git-lfs m4 \
     opam build-essential autoconf wget libz-dev libbz2-dev libmagic-dev libnatpmp-dev \
     libupnp-dev libgd-dev ca-certificates libminiupnpc-dev librsvg2-dev \
-    libc6-dev \
+    libc6-dev python-is-python3 libcrypto++-dev \
  && git clone https://github.com/carlonluca/mldonkey.git \
  && cd mldonkey \
- && git checkout b4aa037c \
+ && git checkout 8353cb1d \
+ && python autoconf.py \
  && opam init --disable-sandboxing --bare --yes --jobs=$(nproc) \
  && eval $(opam env) \
  && opam switch create --yes --jobs=$(nproc) 4.14.2 \
  && eval $(opam env --switch=4.14.2) \
  && opam install . --deps-only --yes --jobs=$(nproc) \
- && opam exec -- ./configure --prefix=$PWD/out --enable-batch --enable-upnp-natpmp --enable-gnutella --enable-gnutella2 --disable-gui \
- && opam exec -- make -j1 \
- && opam exec -- make utils \
- && opam exec -- make install
+ && opam exec -- dune build --profile release
 
 FROM ubuntu:plucky
 
@@ -60,7 +58,7 @@ RUN \
  && apt-get install --no-install-recommends -y \
         zlib1g libbz2-1.0 libmagic1t64 libgd3 netcat-openbsd \
         libnatpmp1t64 libupnp17t64 miniupnpc librsvg2-2 librsvg2-common \
-        libatomic1 libcurl4-gnutls-dev \
+        libatomic1 libcurl4-gnutls-dev libcrypto++-dev \
  && apt-get install -y supervisor \
  && apt-get install -y procps \
  && apt-get -y --purge autoremove \
@@ -76,7 +74,7 @@ RUN useradd -ms /bin/bash mldonkey \
 
 COPY --from=builder-next /root/mldonkey-next/mldonkey-next-frontend/dist /usr/bin/dist
 COPY --from=builder-next /root/mldonkey-next/mldonkey-next-backend/mldonkey-next /usr/bin/mldonkey-next
-COPY --from=builder /mldonkey/out/bin/* /usr/bin/
+COPY --from=builder /mldonkey/_build/default/src/mlnet.exe /usr/bin/mlnet
 COPY --from=builder /mldonkey/distrib/mldonkey_command /usr/lib/mldonkey/
 
 ENV MLDONKEY_DIR=/var/lib/mldonkey LC_ALL=C.UTF-8 LANG=C.UTF-8

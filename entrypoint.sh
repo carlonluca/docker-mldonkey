@@ -8,7 +8,7 @@ _term() {
 trap _term INT TERM
 
 if [ ! -f /var/lib/mldonkey/downloads.ini ]; then
-    mldonkey &
+    mlnet &
     child=$!
     echo "Waiting for mldonkey to start..."
     sleep 5
@@ -19,7 +19,7 @@ if [ ! -f /var/lib/mldonkey/downloads.ini ]; then
         /usr/lib/mldonkey/mldonkey_command "useradd admin $MLDONKEY_ADMIN_PASSWORD"
     fi
 else
-    mldonkey &
+    mlnet &
     child=$!
 fi
 
