@@ -37,12 +37,12 @@ RUN \
     libc6-dev python-is-python3 libcrypto++-dev \
  && git clone https://github.com/carlonluca/mldonkey.git \
  && cd mldonkey \
- && git checkout c6f8e234 \
+ && git checkout 7757f125 \
  && python autoconf.py \
  && opam init --disable-sandboxing --bare --yes --jobs=$(nproc) \
  && eval $(opam env) \
- && opam switch create --yes --jobs=$(nproc) 4.14.2 \
- && eval $(opam env --switch=4.14.2) \
+ && opam switch create --yes --jobs=$(nproc) 5.3.0 \
+ && eval $(opam env --switch=5.3.0) \
  && opam install . --deps-only --yes --jobs=$(nproc) \
  && opam exec -- dune build --profile release
 
