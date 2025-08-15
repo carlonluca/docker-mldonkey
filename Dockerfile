@@ -77,6 +77,10 @@ COPY --from=builder-next /root/mldonkey-next/mldonkey-next-backend/mldonkey-next
 COPY --from=builder /mldonkey/_build/default/src/mlnet.exe /usr/bin/mlnet
 COPY --from=builder /mldonkey/distrib/mldonkey_command /usr/lib/mldonkey/
 
+# Camomile: the way this works is horrible, but couldn't find a better way.
+RUN mkdir -p /root/.opam/5.3.0/share/camomile
+COPY --from=builder /root/.opam/5.3.0/share/camomile /root/.opam/5.3.0/share/camomile
+
 ENV MLDONKEY_DIR=/var/lib/mldonkey LC_ALL=C.UTF-8 LANG=C.UTF-8
 VOLUME /var/lib/mldonkey
 
