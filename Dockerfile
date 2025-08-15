@@ -27,6 +27,8 @@ RUN \
 
 FROM ubuntu:plucky AS builder
 
+ENV OPAMROOT=/opt/opam
+
 RUN \
     DEBIAN_FRONTEND=noninteractive \
  && apt-get -y update \
@@ -47,6 +49,8 @@ RUN \
  && opam exec -- dune build --profile release
 
 FROM ubuntu:plucky
+
+ENV OPAMROOT=/opt/opam
 
 # Remove the ubuntu user.
 RUN touch /var/mail/ubuntu && chown ubuntu /var/mail/ubuntu && userdel -r ubuntu
@@ -78,8 +82,8 @@ COPY --from=builder /mldonkey/_build/default/src/mlnet.exe /usr/bin/mlnet
 COPY --from=builder /mldonkey/distrib/mldonkey_command /usr/lib/mldonkey/
 
 # Camomile: the way this works is horrible, but couldn't find a better way.
-RUN mkdir -p /root/.opam/5.3.0/share/camomile
-COPY --from=builder /root/.opam/5.3.0/share/camomile /root/.opam/5.3.0/share/camomile
+RUN mkdir -p /opt/opam/5.3.0/share/camomile
+COPY --from=builder /opt/opam/5.3.0/share/camomile /opt/opam/5.3.0/share/camomile
 
 ENV MLDONKEY_DIR=/var/lib/mldonkey LC_ALL=C.UTF-8 LANG=C.UTF-8
 VOLUME /var/lib/mldonkey
