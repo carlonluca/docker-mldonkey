@@ -36,15 +36,18 @@ RUN \
  && apt-get install -y --no-install-recommends ca-certificates libcurl4-gnutls-dev zlib1g-dev git-lfs m4 \
     opam build-essential autoconf wget libz-dev libbz2-dev libmagic-dev libnatpmp-dev \
     libupnp-dev libgd-dev ca-certificates libminiupnpc-dev librsvg2-dev \
-    libc6-dev python-is-python3 libcrypto++-dev \
+    libc6-dev python-is-python3 libcrypto++-dev libnghttp2-dev libc-ares-dev libidn2-dev libunistring-dev libpsl-dev \
+ && apt-get install -y --no-install-recommends gcc-15 g++-15 \
+ && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-15 15 \
+ && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-15 15 \
  && git clone https://github.com/carlonluca/mldonkey.git \
  && cd mldonkey \
- && git checkout c907ebd6 \
+ && git checkout 7c42456b \
  && python autoconf.py \
  && opam init --disable-sandboxing --bare --yes --jobs=$(nproc) \
  && eval $(opam env) \
- && opam switch create --yes --jobs=$(nproc) 5.3.0 \
- && eval $(opam env --switch=5.3.0) \
+ && opam switch create musl-static ocaml-variants.5.3.0+options --no-install \
+ && eval $(opam env --switch=musl-static) \
  && opam install . --deps-only --yes --jobs=$(nproc) \
  && opam exec -- dune build --profile release
 
@@ -62,7 +65,7 @@ RUN \
  && apt-get install --no-install-recommends -y \
         zlib1g libbz2-1.0 libmagic1t64 libgd3 netcat-openbsd \
         libnatpmp1t64 libupnp17t64 miniupnpc librsvg2-2 librsvg2-common \
-        libatomic1 libcurl4-gnutls-dev libcrypto++-dev \
+        libatomic1 libcurl3t64-gnutls libcrypto++8t64 libnghttp2-14 libcares2 libidn2-0 libunistring5 libpsl5t64 \
  && apt-get install -y supervisor \
  && apt-get install -y procps \
  && apt-get -y --purge autoremove \
@@ -80,10 +83,6 @@ COPY --from=builder-next /root/mldonkey-next/mldonkey-next-frontend/dist /usr/bi
 COPY --from=builder-next /root/mldonkey-next/mldonkey-next-backend/mldonkey-next /usr/bin/mldonkey-next
 COPY --from=builder /mldonkey/_build/default/src/mlnet.exe /usr/bin/mlnet
 COPY --from=builder /mldonkey/distrib/mldonkey_command /usr/lib/mldonkey/
-
-# Camomile: the way this works is horrible, but couldn't find a better way.
-RUN mkdir -p /opt/opam/5.3.0/share/camomile
-COPY --from=builder /opt/opam/5.3.0/share/camomile /opt/opam/5.3.0/share/camomile
 
 ENV MLDONKEY_DIR=/var/lib/mldonkey LC_ALL=C.UTF-8 LANG=C.UTF-8
 VOLUME /var/lib/mldonkey
