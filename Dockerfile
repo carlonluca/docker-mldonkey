@@ -42,7 +42,7 @@ RUN \
  && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-15 15 \
  && git clone https://github.com/carlonluca/mldonkey.git \
  && cd mldonkey \
- && git checkout 7c42456b \
+ && git checkout 544745fb \
  && python autoconf.py \
  && opam init --disable-sandboxing --bare --yes --jobs=$(nproc) \
  && eval $(opam env) \
