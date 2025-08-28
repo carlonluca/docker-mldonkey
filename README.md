@@ -53,10 +53,9 @@ container, and group _luca_ in the host with group _mldonkey_ in the container.
 |Network|Type|MLDonkey default|Configuration file|
 |---|---|---|---|
 |http_port|HTTP|4080|downloads.ini|
-|mldonkey-next interface|HTTP|4081|container remap<br/>(required for mldonkey-next)|
+|mldonkey-next interface|HTTP|4081|container remap<br/>(required for mldonkey-next for webserver and websocket)|
 |telnet_port|TCP|4000|downloads.ini|
 |gui_port|TCP|4001|downloads.ini|
-|websocket to core|TCP|4002|container remap<br/>(required for mldonkey-next)|
 |websocket for log stream|TCP|4003|container remap<br/>(<b>WARNING: no authentication</b>)|
 |eDonkey2000|TCP|random|donkey.ini|
 |eDonkey2000|UDP|TCP port + 4|donkey.ini|
