@@ -56,7 +56,8 @@ container, and group _luca_ in the host with group _mldonkey_ in the container.
 |mldonkey-next interface|HTTP|4081|container remap<br/>(required for mldonkey-next for webserver and websocket)|
 |telnet_port|TCP|4000|downloads.ini|
 |gui_port|TCP|4001|downloads.ini|
-|websocket for log stream|TCP|4003|container remap<br/>(<b>WARNING: no authentication</b>)|
+|websocket to core|TCP|4002|**not used anymore** [1]|
+|websocket for log stream|TCP|4003|**not used anymore** [2]|
 |eDonkey2000|TCP|random|donkey.ini|
 |eDonkey2000|UDP|TCP port + 4|donkey.ini|
 |Kad|TCP|random|donkey.ini, Kademlia section|
@@ -69,6 +70,9 @@ container, and group _luca_ in the host with group _mldonkey_ in the container.
 |DirectConnect|TCP|4444|directconnect.ini|
 |DirectConnect|UDP|Same as TCP|directconnect.ini|
 
+* [1]: websocket server is now listening on the webapp port (4081) appening the _/ws_ path
+* [2]: websocket server is now listening on the webapp port (4081) appening the _/logstream_ path. **logstream is returned without authentication**, use the MLDONKEY_NEXT_ENABLE_LOG_STREAM env variable to enable/disable (1 to enable, 0 or unset to disable). By default it is unset.
+
 ## Running the Container
 
 This is an example command to run docker-mldonkey:
@@ -80,6 +84,7 @@ docker create --name=mldonkey \
               -e MLDONKEY_UID=<uid> \
               -e TZ=<timezone> \
               -e MLDONKEY_ADMIN_PASSWORD=password \
+              -e MLDONKEY_NEXT_ENABLE_LOG_STREAM=<0 or 1> \
               -p 4000:4000 \
               -p 4001:4001 \
               -p 4002:4002 \
@@ -142,6 +147,54 @@ now run the configuration:
 
 ```
 docker compose up -d
+```
+
+### Running behind a reverse proxy
+
+It is possible to run mldonkey-next behind a reverse proxy. This is an example an nginx configuration:
+
+```plain
+server {
+    listen 80;
+    server_name mldonkey.your.domain;
+
+    location / {
+        proxy_pass http://upstream;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location /ws {
+        proxy_pass http://upstream;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+    }
+
+    location /logstream {
+        proxy_pass http://upstream;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+    }
+}
+```
+
+**NOTE**: mldonkey implementation is not probably safe enough for public exposure, so I suggest to only use this setup in a safe environment. If you really intend to expose the service, you can do so even throught HTTPS:
+
+```plain
+server {
+    listen 443 ssl;
+    server_name mldonkey.your.domain;
+    ssl_certificate [...];
+    ssl_certificate_key [...];
+
+    [...]
+}
 ```
 
 ## Notes for Docker for Mac
