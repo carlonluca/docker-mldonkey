@@ -25,7 +25,7 @@ RUN \
  && npm i --maxsockets 1 \
  && npm run build
 
-FROM ubuntu:plucky AS builder
+FROM ubuntu:questing AS builder
 
 ENV OPAMROOT=/opt/opam
 
@@ -37,9 +37,6 @@ RUN \
     opam build-essential autoconf wget libz-dev libbz2-dev libmagic-dev libnatpmp-dev \
     libupnp-dev libgd-dev ca-certificates libminiupnpc-dev librsvg2-dev \
     libc6-dev python-is-python3 libcrypto++-dev libnghttp2-dev libc-ares-dev libidn2-dev libunistring-dev libpsl-dev \
- && apt-get install -y --no-install-recommends gcc-15 g++-15 \
- && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-15 15 \
- && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-15 15 \
  && git clone https://github.com/carlonluca/mldonkey.git \
  && cd mldonkey \
  && git checkout 544745fb \
@@ -51,7 +48,7 @@ RUN \
  && opam install . --deps-only --yes --jobs=$(nproc) \
  && opam exec -- dune build --profile release
 
-FROM ubuntu:plucky
+FROM ubuntu:questing
 
 ENV OPAMROOT=/opt/opam
 
