@@ -39,7 +39,7 @@ RUN \
     libc6-dev python-is-python3 libcrypto++-dev libnghttp2-dev libc-ares-dev libidn2-dev libunistring-dev libpsl-dev \
  && git clone https://github.com/carlonluca/mldonkey.git \
  && cd mldonkey \
- && git checkout 544745fb \
+ && git checkout 02e359e \
  && python autoconf.py \
  && opam init --disable-sandboxing --bare --yes --jobs=$(nproc) \
  && eval $(opam env) \
