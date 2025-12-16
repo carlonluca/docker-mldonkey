@@ -7,7 +7,7 @@ RUN \
         libupnp-dev libgd-dev ca-certificates ocaml camlp4 && \
     git clone https://github.com/ygrek/mldonkey.git && \
     cd mldonkey && \
-    git checkout d9394aa && \
+    git checkout release-3-1-7-2 && \
     mkdir -p patches && \
     ./configure --prefix=$PWD/out --enable-batch && \
     make -j$(nproc) && \
