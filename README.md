@@ -1,5 +1,9 @@
 # mldonkey docker image
 
+![Docker Pulls](https://img.shields.io/docker/pulls/carlonluca/mldonkey?style=for-the-badge&logoColor=c01d5c&logo=docker&color=c01d5c)
+
+## Intro
+
 This repository hosts the Dockerfile for building the mldonkey docker image.
 
 This image includes:
