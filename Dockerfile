@@ -43,7 +43,7 @@ RUN \
  && python autoconf.py \
  && opam init --disable-sandboxing --bare --yes --jobs=$(nproc) \
  && eval $(opam env) \
- && opam switch create musl-static ocaml-variants.5.3.0+options --no-install \
+ && opam switch create musl-static ocaml-variants.5.4.1+options --no-install \
  && eval $(opam env --switch=musl-static) \
  && opam install . --deps-only --yes --jobs=$(nproc) \
  && opam exec -- dune build --profile release
