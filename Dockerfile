@@ -25,7 +25,7 @@ RUN \
  && npm i --maxsockets 1 \
  && npm run build
 
-FROM ubuntu:questing AS builder
+FROM ubuntu:resolute AS builder
 
 ENV OPAMROOT=/opt/opam
 
@@ -48,7 +48,7 @@ RUN \
  && opam install . --deps-only --yes --jobs=$(nproc) \
  && opam exec -- dune build --profile release
 
-FROM ubuntu:questing
+FROM ubuntu:resolute
 
 ENV OPAMROOT=/opt/opam
 
