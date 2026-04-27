@@ -4,9 +4,9 @@
 
 ## Intro
 
-This repository hosts the Dockerfile for building the mldonkey docker image.
+This repository hosts the Dockerfile for building the mldonkey docker image. You can choose builds based on the official repo or builds of newer versions of mldonkey ported to Ubuntu 26.04 with extremely recent ocaml versions.
 
-This image includes:
+Images include:
 
 * mldonkey core from the [official mldonkey repo](https://github.com/ygrek/mldonkey);
 * additional patches from my [mldonkey fork](https://github.com/carlonluca/mldonkey);
