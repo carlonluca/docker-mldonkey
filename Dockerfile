@@ -36,14 +36,14 @@ RUN \
  && apt-get install -y --no-install-recommends ca-certificates libcurl4-gnutls-dev zlib1g-dev git-lfs m4 \
     opam build-essential autoconf wget libz-dev libbz2-dev libmagic-dev libnatpmp-dev \
     libupnp-dev libgd-dev ca-certificates libminiupnpc-dev librsvg2-dev \
-    libc6-dev python-is-python3 libcrypto++-dev libnghttp2-dev libc-ares-dev libidn2-dev libunistring-dev libpsl-dev \
+    libc6-dev python-is-python3 libcrypto++-dev libnghttp2-dev libc-ares-dev libidn2-dev libunistring-dev libpsl-dev gzip \
  && git clone https://github.com/carlonluca/mldonkey.git \
  && cd mldonkey \
- && git checkout 02e359e \
+ && git checkout 2259735 \
  && python autoconf.py \
  && opam init --disable-sandboxing --bare --yes --jobs=$(nproc) \
  && eval $(opam env) \
- && opam switch create musl-static ocaml-variants.5.4.1+options --no-install \
+ && opam switch create musl-static ocaml-variants.5.5.0+options --no-install \
  && eval $(opam env --switch=musl-static) \
  && opam install . --deps-only --yes --jobs=$(nproc) \
  && opam exec -- dune build --profile release
