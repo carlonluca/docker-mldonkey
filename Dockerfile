@@ -25,7 +25,7 @@ RUN \
  && npm i --maxsockets 1 \
  && npm run build
 
-FROM ubuntu:resolute AS builder
+FROM ubuntu:stonking AS builder
 
 ENV OPAMROOT=/opt/opam
 
@@ -37,18 +37,24 @@ RUN \
     opam build-essential autoconf wget libz-dev libbz2-dev libmagic-dev libnatpmp-dev \
     libupnp-dev libgd-dev ca-certificates libminiupnpc-dev librsvg2-dev \
     libc6-dev python-is-python3 libcrypto++-dev libnghttp2-dev libc-ares-dev libidn2-dev libunistring-dev libpsl-dev gzip \
+ && apt-get install -y gcc-16 g++-16 \
+ && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-16 160 \
+  --slave /usr/bin/g++ g++ /usr/bin/g++-16 \
+  --slave /usr/bin/gcc-ar gcc-ar /usr/bin/gcc-ar-16 \
+  --slave /usr/bin/gcc-nm gcc-nm /usr/bin/gcc-nm-16 \
+  --slave /usr/bin/gcc-ranlib gcc-ranlib /usr/bin/gcc-ranlib-16 \
  && git clone https://github.com/carlonluca/mldonkey.git \
  && cd mldonkey \
- && git checkout 2259735 \
+ && git checkout 0e057205c873b6b2c87cb5213326b032da3c7926 \
  && python autoconf.py \
  && opam init --disable-sandboxing --bare --yes --jobs=$(nproc) \
  && eval $(opam env) \
- && opam switch create musl-static ocaml-variants.5.5.1+options --no-install \
+ && opam switch create musl-static ocaml-variants.5.5.2+options --no-install \
  && eval $(opam env --switch=musl-static) \
  && opam install . --deps-only --yes --jobs=$(nproc) \
  && opam exec -- dune build --profile release
 
-FROM ubuntu:resolute
+FROM ubuntu:stonking
 
 ENV OPAMROOT=/opt/opam
 
