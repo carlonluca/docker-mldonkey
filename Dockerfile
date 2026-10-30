@@ -45,7 +45,7 @@ RUN \
   --slave /usr/bin/gcc-ranlib gcc-ranlib /usr/bin/gcc-ranlib-16 \
  && git clone https://github.com/carlonluca/mldonkey.git \
  && cd mldonkey \
- && git checkout 0e057205c873b6b2c87cb5213326b032da3c7926 \
+ && git checkout f0b0d2b72c29abce0326ab20e83ce8a75884a450 \
  && python autoconf.py \
  && opam init --disable-sandboxing --bare --yes --jobs=$(nproc) \
  && eval $(opam env) \
